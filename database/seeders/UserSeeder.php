@@ -22,8 +22,22 @@ class UserSeeder extends Seeder
         ]);
 
         User::create([
-            'name' => 'Customer',
-            'email' => 'customer@raf.rs',
+            'name' => 'Pera Peric',
+            'email' => 'pera@raf.rs',
+            'password' => Hash::make('customer.123'),
+            'role' => 'customer',
+        ]);
+
+         User::create([
+            'name' => 'Mika Mikic',
+            'email' => 'mika@raf.rs',
+            'password' => Hash::make('customer.123'),
+            'role' => 'customer',
+        ]);
+
+         User::create([
+            'name' => 'Jova Jovic',
+            'email' => 'jova@raf.rs',
             'password' => Hash::make('customer.123'),
             'role' => 'customer',
         ]);

@@ -15,7 +15,7 @@ return new class extends Migration {
             $table->string('title');
             $table->text('description');
             $table->decimal('price', 10, 2)->nullable();
-            $table->tinyInteger('condition')->default(0);
+            $table->enum('condition', ['novo', 'polovno']);
             $table->string('image_path')->nullable();
             $table->string('contact_phone')->nullable();
             $table->string('location')->nullable();

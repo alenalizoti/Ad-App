@@ -11,7 +11,8 @@ class Category extends Model
         'parent_id'
     ];
 
-    public function ads(){
+    public function ads()
+    {
         return $this->hasMany(Ad::class);
     }
 
@@ -24,4 +25,32 @@ class Category extends Model
     {
         return $this->belongsTo(Category::class, 'parent_id');
     }
+
+    public function getDepthAttribute()
+    {
+        $depth = 0;
+        $parent = $this->parent;
+
+        while ($parent) {
+            $depth++;
+            $parent = $parent->parent;
+        }
+
+        return $depth;
+    }
+    public static function buildCategoryTree($categories, $parentId = null, $depth = 0)
+    {
+        $branch = [];
+
+        foreach ($categories as $category) {
+            if ($category->parent_id === $parentId) {
+                $category->depth = $depth;
+                $category->children = self::buildCategoryTree($categories, $category->id, $depth + 1);
+                $branch[] = $category;
+            }
+        }
+
+        return $branch;
+    }
+
 }
