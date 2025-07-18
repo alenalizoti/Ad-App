@@ -15,7 +15,7 @@
                         </a>
                     </li>
                     <li>
-                        <a href="" data-bs-toggle="collapse" class="nav-link px-0 align-middle">
+                        <a href="{{ route('categories.index') }}" data-bs-toggle="collapse" class="nav-link px-0 align-middle">
                             <i class="fs-4 bi-speedometer2"></i> <span class="ms-1 d-none d-sm-inline">Pregled kategorija</span> </a>
                         <ul class="collapse show nav flex-column ms-1" id="submenu1" data-bs-parent="#menu">
                             <li class="w-100">

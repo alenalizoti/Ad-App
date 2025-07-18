@@ -50,8 +50,8 @@
                 <div class="invalid-feedback">{{ $message }}</div>
             @enderror
         </div>
-        <div class="d-flex">
-            <button type="submit" class="btn btn-primary">Kreiraj korisnika</button>
+        <div class="d-flex gap-2">
+            <button type="submit" class="btn btn-success">Kreiraj korisnika</button>
             <a href="{{ route('customers.index') }}" class="btn btn-danger">Nazad</a>
         </div>
     </form>

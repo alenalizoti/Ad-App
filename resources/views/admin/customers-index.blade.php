@@ -9,8 +9,8 @@
             </a>
         </div>
 
-        @if(session('success'))
-            <div class="mb-4 p-3 bg-green-100 text-green-700 rounded">
+         @if(session('success'))
+            <div class="alert alert-success text-white">
                 {{ session('success') }}
             </div>
         @endif
@@ -22,6 +22,7 @@
                         <th>ID</th>
                         <th>Ime</th>
                         <th>Email</th>
+                        <th>Uloga</th>
                         <th>Kreiran</th>
                         <th colspan="2">Akcije</th>
                     </tr>
@@ -33,9 +34,10 @@
                             <td>{{ $user->id }}</td>
                             <td>{{ $user->name }}</td>
                             <td>{{ $user->email }}</td>
+                            <td>{{ $user->role }}</td>
                             <td>{{ $user->created_at->format('d.m.Y') }}</td>
                             <td>
-                                <a href="{{ route('customers.edit', $user) }}"
+                                <a href="{{ route('customers.edit', $user->id) }}"
                                     class="btn btn-sm btn-outline-primary">Edit</a>
                             </td>
                             <td>
