@@ -33,7 +33,7 @@ class AdSeeder extends Seeder
                 'image_path' => 'iphone_13_Pro.jpg',
                 'contact_phone' => '0612345678',
                 'location' => 'Beograd',
-                'category_id' => 8, 
+                'category_id' => 9, 
                 'user_id' => 3,
             ],
             [
@@ -55,7 +55,7 @@ class AdSeeder extends Seeder
                 'image_path' => 'Volkswagen_Golf_6.jpg',
                 'contact_phone' => '0609876543',
                 'location' => 'Subotica',
-                'category_id' => 10, 
+                'category_id' => 11, 
                 'user_id' => 4,
             ],
             [
@@ -66,7 +66,7 @@ class AdSeeder extends Seeder
                 'image_path' => 'ASUS_RTX_3060.jpg',
                 'contact_phone' => '0611122233',
                 'location' => 'Kragujevac',
-                'category_id' => 6, 
+                'category_id' => 7, 
                 'user_id' => 2,
             ],
             [
@@ -77,7 +77,7 @@ class AdSeeder extends Seeder
                 'image_path' => 'HP DDR4_16GB_RAM.jpg',
                 'contact_phone' => '0643322110',
                 'location' => 'Pančevo',
-                'category_id' => 8, 
+                'category_id' => 6, 
                 'user_id' => 3,
             ],
             [
@@ -88,7 +88,7 @@ class AdSeeder extends Seeder
                 'image_path' => 'Samsung_Galaxy_S22.jpg',
                 'contact_phone' => '0639998888',
                 'location' => 'Zrenjanin',
-                'category_id' => 8, 
+                'category_id' => 9, 
                 'user_id' => 4,
             ],
             [
@@ -98,7 +98,7 @@ class AdSeeder extends Seeder
                 'image_path' => 'Yamaha_R6.jpg',
                 'contact_phone' => '0652233445',
                 'location' => 'Čačak',
-                'category_id' => 11, 
+                'category_id' => 12, 
                 'user_id' => 3,
             ],
             [
@@ -109,7 +109,7 @@ class AdSeeder extends Seeder
                 'image_path' => 'Fiksni_telefon_Panasonic.jpg',
                 'contact_phone' => '0605544332',
                 'location' => 'Vranje',
-                'category_id' => 9, 
+                'category_id' => 10, 
                 'user_id' => 2,
             ],
             [

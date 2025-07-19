@@ -94,13 +94,13 @@ class AdController extends Controller
         $ad = Ad::findOrFail($id);
         $allCategories = Category::all();
         $categories = Category::buildCategoryTree($allCategories);
-     
-        if(auth()->user()->role === 'admin'){
+
+        if (auth()->user()->role === 'admin') {
             $users = User::where('role', 'customer')->get();
             return view('admin.ad-edit', compact('categories', 'users', 'ad'));
         }
-        
-        return view('customer.ad-edit', compact('categories',  'ad'));
+
+        return view('customer.ad-edit', compact('categories', 'ad'));
     }
 
     public function update(editAdRequest $request, $id)
@@ -138,5 +138,97 @@ class AdController extends Controller
         $route = auth()->user()->role === 'admin' ? 'admin.ads.index' : 'customer.profile';
 
         return redirect()->route($route)->with('success', 'Uspesno ste izmenili oglas!');
+    }
+
+    public function publicIndex(Request $request)
+    {
+        $query = Ad::query();
+        if ($request->filled('title')) {
+            $query->where('title', 'like', '%' . $request->title . '%');
+        }
+
+        if ($request->filled('description')) {
+            $query->where('description', 'like', '%' . $request->description . '%');
+        }
+
+        if ($request->filled('price_min')) {
+            $query->where('price', '>=', $request->price_min);
+        }
+
+        if ($request->filled('price_max')) {
+            $query->where('price', '<=', $request->price_max);
+        }
+
+        if ($request->filled('location')) {
+            $query->where('location', 'like', '%' . $request->location . '%');
+        }
+
+        if ($request->filled('category_id')) {
+            $selectedCategoryId = $request->category_id;
+            $allCategories = Category::all();
+
+            
+           $categoryIds = $this->getCategoryAndDescendantsIds($selectedCategoryId, $allCategories);
+
+            $query->whereIn('category_id', $categoryIds);
+        } else {
+            $allCategories = Category::all(); // Ako već nije pozvano
+        }
+
+        // Sortiranje
+        switch ($request->sort_by) {
+            case 'price_asc':
+                $query->orderBy('price', 'asc');
+                break;
+            case 'price_desc':
+                $query->orderBy('price', 'desc');
+                break;
+            case 'date_asc':
+                $query->orderBy('created_at', 'asc');
+                break;
+            case 'date_desc':
+                $query->orderBy('created_at', 'desc');
+                break;
+            default:
+                $query->orderBy('created_at', 'desc');
+                break;
+        }
+        $ads = $query->paginate(9);
+        $allCategories = Category::all();
+        $categories = Category::buildCategoryTree($allCategories);
+        $filterCat = Category::all();
+        return view('ads-index', compact('ads', 'categories', 'filterCat'));
+    }
+
+    public function publicShow($id)
+    {
+        $allCategories = Category::all();
+        $categories = Category::buildCategoryTree($allCategories);
+        $ad = Ad::findOrFail($id);
+        return view('ads-show', compact('ad', 'categories'));
+    }
+
+    private function getCategoryAndDescendantsIds($id, $allCategories)
+    {
+        $ids = [$id];
+        foreach ($allCategories as $category) {
+            if ($category->parent_id == $id) {
+                $ids = array_merge($ids, $this->getCategoryAndDescendantsIds($category->id, $allCategories));
+            }
+        }
+        return $ids;
+    }
+
+    public function showByCategory($id)
+    {
+        $allCategories = Category::all();
+        $categories = Category::buildCategoryTree($allCategories);
+
+        $categoryIds = $this->getCategoryAndDescendantsIds($id, $allCategories);
+
+        $ads = Ad::whereIn('category_id', $categoryIds)->paginate(9);
+        $selectedCategory = Category::findOrFail($id);
+        $filterCat = Category::all();
+        return view('ads-index', compact('ads', 'categories', 'selectedCategory', 'filterCat'));
     }
 }

@@ -34,15 +34,13 @@
 <body>
     <div class="container-fluid">
         <div class="row flex-nowrap">
-            @auth
-                @if(auth()->user()->isAdmin())
-                    @include('layouts.admin.sidebar')
-                @else
-                    @include('layouts.customer.sidebar')
-                @endif
-            @else
-                @include('layouts.guest.sidebar')
-            @endauth
+            @if(request()->routeIs('ads.public') || request()->routeIs('ads.public.show') || request()->routeIs('category.show'))
+                <x-sidebar :categories="$categories" />
+            @elseif(auth()->check() && auth()->user()->isAdmin())
+                @include('layouts.admin.sidebar')
+            @elseif(auth()->check())
+                @include('layouts.customer.sidebar')
+            @endif
 
 
             <div class="col py-3 main-content">

@@ -37,4 +37,9 @@ Route::middleware(['auth','role:customer'])->prefix('customer')->name('customer.
     Route::get('/activities',[UserController::class, 'historyActivities'])->name('activities');
     Route::resource('ads', AdController::class);
 });
+
+Route::get('/', [AdController::class, 'publicIndex'])->name('ads.public');
+Route::get('/ad/{id}', [AdController::class, 'publicShow'])->name('ads.public.show');
+Route::get('/category/{id}', [AdController::class, 'showByCategory'])->name('category.show');
+
 require __DIR__ . '/auth.php';
