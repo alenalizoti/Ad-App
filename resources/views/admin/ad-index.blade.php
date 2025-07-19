@@ -4,7 +4,7 @@
     <div class="container">
         <h1 class="text-center">Oglasi</h1>
         <div class="d-flex justify-content-center m-3">
-            <a href="{{ route('ads.create') }}" class="btn btn-primary">
+            <a href="{{ route('admin.ads.create') }}" class="btn btn-primary">
                 + Dodaj novi oglas
             </a>
         </div>
@@ -39,10 +39,10 @@
                             <td>{{ $a->user->name }}</td>
                             <td>{{ $a->category->name }}</td>
                             <td>
-                                <a href="{{ route('ads.edit', $a->id) }}" class="btn btn-sm btn-outline-primary">Edit</a>
+                                <a href="{{ route('admin.ads.edit', $a->id) }}" class="btn btn-sm btn-outline-primary">Edit</a>
                             </td>
                             <td>
-                                <form action="{{ route('ads.destroy', $a->id) }}" method="POST" class="d-inline"
+                                <form action="{{ route('admin.ads.destroy', $a->id) }}" method="POST" class="d-inline"
                                     onsubmit="return confirm('Da li ste sigurni da zelite da obriste kategoriju?');">
                                     @csrf
                                     @method('DELETE')

@@ -4,7 +4,7 @@
     <div class="container">
         <h1 class="text-center">Izmenite kategoriju</h1>
 
-        <form action="{{ route('categories.update', $category->id) }}" method="POST">
+        <form action="{{ route('admin.categories.update', $category->id) }}" method="POST">
             @csrf
             @method('PUT')
             <div class="mb-3">
@@ -33,7 +33,7 @@
 
             <div class="d-flex gap-3">
                 <button type="submit" class="btn btn-success">Sačuvaj</button>
-                <a href="{{ route('categories.index') }}" class="btn btn-danger">Nazad</a>
+                <a href="{{ route('admin.categories.index') }}" class="btn btn-danger">Nazad</a>
             </div>
         </form>
     </div>

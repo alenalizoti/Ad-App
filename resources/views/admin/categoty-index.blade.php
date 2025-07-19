@@ -5,7 +5,7 @@
         <h1 class="text-center">Kategorije</h1>
 
         <div class="d-flex justify-content-center m-3">
-            <a href="{{ route('categories.create') }}" class="btn btn-primary">
+            <a href="{{ route('admin.categories.create') }}" class="btn btn-primary">
                 + Dodaj novu kategoriju
             </a>
         </div>
@@ -34,10 +34,10 @@
                             <td>{{ $c->parent?->name ?? '-' }}</td>
                             <td>{{ $c->created_at->format('d.m.Y') }}</td>
                             <td>
-                                <a href="{{ route('categories.edit', $c) }}" class="btn btn-sm btn-outline-primary">Edit</a>
+                                <a href="{{ route('admin.categories.edit', $c) }}" class="btn btn-sm btn-outline-primary">Edit</a>
                             </td>
                             <td>
-                                <form action="{{ route('categories.destroy', $c->id) }}" method="POST" class="d-inline"
+                                <form action="{{ route('admin.categories.destroy', $c->id) }}" method="POST" class="d-inline"
                                     onsubmit="return confirm('Da li ste sigurni da zelite da obriste kategoriju?');">
                                     @csrf
                                     @method('DELETE')

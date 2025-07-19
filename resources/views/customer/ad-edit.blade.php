@@ -4,7 +4,7 @@
     <div class="container">
         <h1 class="text-center">Izmeni oglas</h1>
 
-        <form action="{{ route('admin.ads.update', $ad->id) }}" method="POST" enctype="multipart/form-data">
+        <form action="{{ route('customer.ads.update', $ad->id) }}" method="POST" enctype="multipart/form-data">
             @csrf
             @method('PUT')
 
@@ -92,21 +92,6 @@
             </div>
 
             <div class="mb-3">
-                <label for="user_id" class="form-label">Korisnik:</label>
-                <select name="user_id" class="form-control @error('user_id') is-invalid @enderror" required>
-                    <option value="">-- Izaberi korisnika --</option>
-                    @foreach ($users as $user)
-                        <option value="{{ $user->id }}" {{ old('user_id', $ad->user_id) == $user->id ? 'selected' : '' }}>
-                            {{ $user->name }} ({{ $user->email }})
-                        </option>
-                    @endforeach
-                </select>
-                @error('user_id')
-                    <div class="invalid-feedback">{{ $message }}</div>
-                @enderror
-            </div>
-
-            <div class="mb-3">
                 <label for="image_path" class="form-label">Slika oglasa:</label>
                 <input type="file" class="form-control @error('image_path') is-invalid @enderror" name="image_path"
                     accept="image/*">
@@ -122,7 +107,7 @@
 
             <div class="d-flex justify-content-center gap-2">
                 <button type="submit" class="btn btn-success">Sačuvaj izmene</button>
-                <a href="{{ route('admin.ads.index') }}" class="btn btn-danger">Nazad</a>
+                <a href="{{ route('customer.profile') }}" class="btn btn-danger">Nazad</a>
             </div>
         </form>
     </div>

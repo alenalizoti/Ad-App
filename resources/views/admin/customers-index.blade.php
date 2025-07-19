@@ -4,7 +4,7 @@
     <div class="container">
         <h1 class="text-center">Korisnici</h1>
         <div class="d-flex justify-content-center m-3">
-            <a href="{{ route('customers.create') }}" class="btn btn-primary">
+            <a href="{{ route('admin.customers.create') }}" class="btn btn-primary">
                 + Dodaj novog korisnika
             </a>
         </div>
@@ -37,11 +37,11 @@
                             <td>{{ $user->role }}</td>
                             <td>{{ $user->created_at->format('d.m.Y') }}</td>
                             <td>
-                                <a href="{{ route('customers.edit', $user->id) }}"
+                                <a href="{{ route('admin.customers.edit', $user->id) }}"
                                     class="btn btn-sm btn-outline-primary">Edit</a>
                             </td>
                             <td>
-                                <form action="{{ route('customers.destroy', $user->id) }}" method="POST" class="d-inline"
+                                <form action="{{ route('admin.customers.destroy', $user->id) }}" method="POST" class="d-inline"
                                     onsubmit="return confirm('Da li ste sigurni da zelite da obriste ovog korisnika?');">
                                     @csrf
                                     @method('DELETE')

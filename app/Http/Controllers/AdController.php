@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\createAdRequest;
 use App\Http\Requests\editAdRequest;
+use App\Models\ActivityLog;
 use App\Models\Ad;
 use App\Models\Category;
 use App\Models\User;
@@ -21,9 +22,20 @@ class AdController extends Controller
     public function destroy($id)
     {
         $ad = Ad::findOrFail($id);
+        if (auth()->user()->role !== 'admin' && $ad->user_id !== auth()->id()) {
+            abort(403);
+        }
 
         $ad->delete();
-        return redirect()->route('ads.index')->with('success', 'Uspesno ste obrisali oglas!');
+
+        ActivityLog::create([
+            'user_id' => auth()->id(),
+            'action' => 'deleted_ad',
+            'subject_id' => $ad->id,
+            'subject_type' => 'App\Models\Ad',
+            'description' => 'Obrisao/la oglas: ' . $ad->title,
+        ]);
+        return redirect()->back()->with('success', 'Uspesno ste obrisali oglas!.');
     }
 
     public function create()
@@ -31,7 +43,13 @@ class AdController extends Controller
         $allCategories = Category::all();
         $categories = Category::buildCategoryTree($allCategories);
         $users = User::where('role', 'customer')->get();
-        return view('admin.ad-create', compact('categories', 'users'));
+
+        if (auth()->user()->role === 'admin') {
+            $users = User::where('role', 'customer')->get();
+            return view('admin.ad-create', compact('categories', 'users'));
+        } else {
+            return view('customer.ad-create', compact('categories'));
+        }
     }
 
     public function store(createAdRequest $request)
@@ -44,6 +62,8 @@ class AdController extends Controller
             $imagePath = null;
         }
 
+        $userId = auth()->user()->role === 'admin' ? $validated['user_id'] : auth()->id();
+
         $ad = Ad::create([
             'title' => $validated['title'],
             'description' => $validated['description'],
@@ -53,10 +73,20 @@ class AdController extends Controller
             'location' => $validated['location'],
             'category_id' => $validated['category_id'],
             'image_path' => $imagePath,
-            'user_id' => $validated['user_id'],
+            'user_id' => $userId,
         ]);
 
-        return redirect()->route('ads.index')->with('success', 'Uspesno ste kreirali oglas!');
+        ActivityLog::create([
+            'user_id' => auth()->id(),
+            'action' => 'created_ad',
+            'subject_id' => $ad->id,
+            'subject_type' => 'App\Models\Ad',
+            'description' => 'Kreirao/la oglas: ' . $ad->title,
+        ]);
+
+        $route = auth()->user()->role === 'admin' ? 'admin.ads.index' : 'customer.profile';
+
+        return redirect()->route($route)->with('success', 'Uspesno ste kreirali oglas!');
     }
 
     public function edit($id)
@@ -64,9 +94,13 @@ class AdController extends Controller
         $ad = Ad::findOrFail($id);
         $allCategories = Category::all();
         $categories = Category::buildCategoryTree($allCategories);
-        $users = User::where('role', 'customer')->get();
-
-        return view('admin.ad-edit', compact('categories', 'users', 'ad'));
+     
+        if(auth()->user()->role === 'admin'){
+            $users = User::where('role', 'customer')->get();
+            return view('admin.ad-edit', compact('categories', 'users', 'ad'));
+        }
+        
+        return view('customer.ad-edit', compact('categories',  'ad'));
     }
 
     public function update(editAdRequest $request, $id)
@@ -82,6 +116,8 @@ class AdController extends Controller
             $ad->image_path = $path;
         }
 
+        $userId = auth()->user()->role === 'admin' ? $validated['user_id'] : auth()->id();
+
         $ad->title = $validated['title'];
         $ad->description = $validated['description'];
         $ad->price = $validated['price'];
@@ -89,10 +125,18 @@ class AdController extends Controller
         $ad->contact_phone = $validated['contact_phone'];
         $ad->location = $validated['location'];
         $ad->category_id = $validated['category_id'];
-        $ad->user_id = $validated['user_id'];
+        $ad->user_id = $userId;
 
         $ad->save();
+        ActivityLog::create([
+            'user_id' => auth()->id(),
+            'action' => 'updated_ad',
+            'subject_id' => $ad->id,
+            'subject_type' => 'App\Models\Ad',
+            'description' => 'Izmenio/la oglas: ' . $ad->title,
+        ]);
+        $route = auth()->user()->role === 'admin' ? 'admin.ads.index' : 'customer.profile';
 
-        return redirect()->route('ads.index')->with('success', 'Uspesno ste izmenili oglas!');
+        return redirect()->route($route)->with('success', 'Uspesno ste izmenili oglas!');
     }
 }

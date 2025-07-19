@@ -4,7 +4,7 @@
     <div class="container">
         <h1 class="text-center">Kreiraj oglas</h1>
 
-        <form action="{{ route('ads.store') }}" method="POST" enctype="multipart/form-data">
+        <form action="{{ route('admin.ads.store') }}" method="POST" enctype="multipart/form-data">
             @csrf
 
             <div class="mb-3">
@@ -26,7 +26,7 @@
             <div class="mb-3">
                 <label for="price" class="form-label">Cena:</label>
                 <input type="number" class="form-control @error('price') is-invalid @enderror" name="price"
-                    value="{{ old('price') }}" required>
+                    value="{{ old('price') }}">
                 @error('price')
                     <div class="invalid-feedback">{{ $message }}</div>
                 @enderror
@@ -110,7 +110,7 @@
 
             <div class="d-flex justify-content-center gap-2">
                 <button type="submit" class="btn btn-success">Kreiraj</button>
-                <a href="{{ route('ads.index') }}" class="btn btn-danger">Nazad</a>
+                <a href="{{ route('admin.ads.index') }}" class="btn btn-danger">Nazad</a>
             </div>
         </form>
     </div>

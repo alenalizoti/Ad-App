@@ -4,7 +4,7 @@
 <div class="container mt-4">
     <h2 class="text-center mb-4">Dodaj novog korisnika</h2>
 
-    <form action="{{ route('customers.store') }}" method="POST">
+    <form action="{{ route('admin.customers.store') }}" method="POST">
         @csrf
 
         <div class="mb-3">
@@ -52,7 +52,7 @@
         </div>
         <div class="d-flex gap-2">
             <button type="submit" class="btn btn-success">Kreiraj korisnika</button>
-            <a href="{{ route('customers.index') }}" class="btn btn-danger">Nazad</a>
+            <a href="{{ route('admin.customers.index') }}" class="btn btn-danger">Nazad</a>
         </div>
     </form>
 </div>

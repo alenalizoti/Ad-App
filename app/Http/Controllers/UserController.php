@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\createUserRequest;
 use App\Http\Requests\updateUserRequest;
+use App\Models\ActivityLog;
+use App\Models\Ad;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
@@ -20,7 +22,7 @@ class UserController extends Controller
         $user = User::findOrFail($id);
         $user->delete();
 
-        return redirect()->route('customers.index')->with('success', 'Uspesno ste obrisali korisnika!');
+        return redirect()->route('admin.customers.index')->with('success', 'Uspesno ste obrisali korisnika!');
     }
 
     public function create(){
@@ -37,7 +39,7 @@ class UserController extends Controller
             'role' => $validated['role'],
         ]);
 
-        return redirect()->route('customers.index')->with('success', 'Uspesno ste kreirali korisnika!');
+        return redirect()->route('admin.customers.index')->with('success', 'Uspesno ste kreirali korisnika!');
     }
 
     public function edit($id){
@@ -54,7 +56,24 @@ class UserController extends Controller
 
         $user->save();
 
-        return redirect()->route('customers.index')->with('success', 'Uspesno ste azurirali korisnika!');
+        return redirect()->route('admin.customers.index')->with('success', 'Uspesno ste azurirali korisnika!');
+    }
+
+    public function profile(){
+        $user = auth()->user();
+        $totalAds = Ad::where('user_id', $user->id)->count();
+        $ads = Ad::where('user_id', $user->id)->paginate(4);
+
+        return view('customer.profile', compact('user','ads','totalAds'));
+    }
+
+    public function historyActivities(){
+        $user = auth()->user();
+        $activities = ActivityLog::where('user_id', $user->id)
+                ->latest()
+                ->take(10)
+                ->get();
+        return view('customer.activities', compact('activities'));
     }
 }
 

@@ -4,7 +4,7 @@
 <div class="container mt-4">
     <h2 class="text-center mb-4">Izmeni korisnika</h2>
 
-    <form action="{{ route('customers.update', $user->id) }}" method="POST">
+    <form action="{{ route('admin.customers.update', $user->id) }}" method="POST">
         @csrf
         @method('PUT')
 
@@ -37,7 +37,7 @@
 
         <div class="d-flex gap-3">
             <button type="submit" class="btn btn-success">Sačuvaj izmene</button>
-            <a href="{{ route('customers.index') }}" class="btn btn-danger">Nazad</a>
+            <a href="{{ route('admin.customers.index') }}" class="btn btn-danger">Nazad</a>
         </div>
     </form>
 </div>

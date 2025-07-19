@@ -24,12 +24,12 @@ class createAdRequest extends FormRequest
         return [
             'title' => 'required|string|max:255|min:3',
             'description' => 'required|string',
-            'price' => 'required|numeric|min:0',
+            'price' => 'nullable|numeric|min:0',
             'condition' => 'required|in:novo,polovno',
             'contact_phone' => 'required|string|max:20',
             'location' => 'required|string|max:255',
             'category_id' => 'required|exists:categories,id',
-            'user_id' => 'required|exists:users,id',
+            'user_id' => 'sometimes|exists:users,id',
             'image_path' => 'image|mimes:jpeg,png,jpg,gif,svg|max:2048',
         ];
     }

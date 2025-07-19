@@ -19,7 +19,7 @@ class CategoryController extends Controller
         $category = Category::findOrFail($category_id);
 
         $category->delete();
-        return redirect()->route('categories.index')->with('success', 'Uspesno ste obrisali kategoriju!');
+        return redirect()->route('admin.categories.index')->with('success', 'Uspesno ste obrisali kategoriju!');
     }
 
     public function create(){
@@ -35,7 +35,7 @@ class CategoryController extends Controller
             'parent_id' => $validated['parent_id']
         ]);
 
-        return redirect()->route('categories.index')->with('success', 'Uspesno ste kreirali kategoriju!');
+        return redirect()->route('admin.categories.index')->with('success', 'Uspesno ste kreirali kategoriju!');
     }
 
     public function edit($id){
@@ -53,6 +53,6 @@ class CategoryController extends Controller
 
         $category->save();
 
-        return redirect()->route('categories.index')->with('success', 'Uspesno ste azurirali kategoriju!');
+        return redirect()->route('admin.categories.index')->with('success', 'Uspesno ste azurirali kategoriju!');
     }
 }

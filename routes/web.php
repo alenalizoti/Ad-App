@@ -15,7 +15,7 @@ Route::get('/', function () {
 
 
 
-Route::middleware(['auth', 'role:admin'])->prefix('admin')->group(function () {
+Route::middleware(['auth', 'role:admin'])->prefix('admin')->name('admin.')->group(function () {
     Route::get('/dashboard', function () {
         return view('admin.dashboard',[
              
@@ -25,11 +25,16 @@ Route::middleware(['auth', 'role:admin'])->prefix('admin')->group(function () {
         'recentAds' => Ad::latest()->take(5)->get(),
         'recentUsers' => User::latest()->take(5)->get(),
     ]);
-    })->name('admin.dashboard');
+    })->name('dashboard');
 
     Route::resource('customers', UserController::class);
     Route::resource('categories', CategoryController::class);
     Route::resource('ads', AdController::class);
 });
 
+Route::middleware(['auth','role:customer'])->prefix('customer')->name('customer.')->group(function() {
+    Route::get('/profile',[UserController::class, 'profile'])->name('profile');
+    Route::get('/activities',[UserController::class, 'historyActivities'])->name('activities');
+    Route::resource('ads', AdController::class);
+});
 require __DIR__ . '/auth.php';
